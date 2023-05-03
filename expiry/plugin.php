@@ -981,9 +981,8 @@ function expiry_new_link( $return, $url , $keyword, $title ) {
 			'fresh' => $fresh,
 			'stale' => $stale,
 			'postx' => $postx );
-				
 
-	$sql = "INSERT INTO $table (keyword, type, click, timestamp, shelflife, postexpire)  VALUES ('$keyword', '$type', '$click', '$fresh', '$stale', '$postx')";
+	$sql = "INSERT INTO $table (keyword, type, click, timestamp, shelflife, postexpire)  VALUES ('$keyword', '$type', '$click', '$fresh', '$stale', '$postx') ON CONFLICT (keyword) DO UPDATE SET type = EXCLUDED.type, click = EXCLUDED.click, timestamp = EXCLUDED.timestamp, shelflife = EXCLUDED.shelflife, postexpire = EXCLUDED.postexpire";
 	
 	$insert = $ydb->fetchAffected($sql, $binds);
 		
@@ -1119,8 +1118,7 @@ function expiry_old_link() {
 				'stale' 	=> $stale,
 				'postx' 	=> $postx );
 
-
-	$sql = "INSERT INTO $table (keyword, type, click, timestamp, shelflife, postexpire)  VALUES ('$keyword', '$type', '$click', '$fresh', '$stale', '$postx')";
+	$sql = "INSERT INTO $table (keyword, type, click, timestamp, shelflife, postexpire)  VALUES ('$keyword', '$type', '$click', '$fresh', '$stale', '$postx') ON CONFLICT (keyword) DO UPDATE SET type = EXCLUDED.type, click = EXCLUDED.click, timestamp = EXCLUDED.timestamp, shelflife = EXCLUDED.shelflife, postexpire = EXCLUDED.postexpire";
 
 	$insert = $ydb->fetchAffected($sql, $binds);
 
