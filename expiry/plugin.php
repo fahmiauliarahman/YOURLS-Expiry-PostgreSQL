@@ -1028,10 +1028,10 @@ yourls_add_filter( 'add_new_link', function ( $return, $url , $keyword, $title )
 			'stale' => $stale,
 			'postx' => $postx );
 				
-	$sql = "REPLACE INTO $table (keyword, type, click, timestamp, shelflife, postexpire) VALUES (:keyword, :type, :click, :fresh, :stale, :postx)";
-	
+
+	$sql = "INSERT INTO $table (keyword, type, click, timestamp, shelflife, postexpire)  VALUES ('$keyword', '$type', '$click', '$fresh', '$stale', '$postx') ON CONFLICT (keyword) DO UPDATE SET type = EXCLUDED.type, click = EXCLUDED.click, timestamp = EXCLUDED.timestamp, shelflife = EXCLUDED.shelflife, postexpire = EXCLUDED.postexpire";
+
 	$insert = $ydb->fetchAffected($sql, $binds);
-		
 
 	return yourls_apply_filter( 'after_expiry_new_link', $return, $url, $keyword, $title );
 });
@@ -1163,9 +1163,9 @@ function expiry_old_link() {
 				'fresh' 	=> $fresh,
 				'stale' 	=> $stale,
 				'postx' 	=> $postx );
+
+	$sql = "INSERT INTO $table (keyword, type, click, timestamp, shelflife, postexpire)  VALUES ('$keyword', '$type', '$click', '$fresh', '$stale', '$postx') ON CONFLICT (keyword) DO UPDATE SET type = EXCLUDED.type, click = EXCLUDED.click, timestamp = EXCLUDED.timestamp, shelflife = EXCLUDED.shelflife, postexpire = EXCLUDED.postexpire";
 			
-	$sql = "REPLACE INTO $table (keyword, type, click, timestamp, shelflife, postexpire) VALUES (:keyword, :type, :click, :fresh, :stale, :postx)";
-	
 	$insert = $ydb->fetchAffected($sql, $binds);
 
 	return yourls_apply_filter( 'after_expiry_old_link', $return, $url, $keyword, $title );
