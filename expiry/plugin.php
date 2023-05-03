@@ -982,7 +982,8 @@ function expiry_new_link( $return, $url , $keyword, $title ) {
 			'stale' => $stale,
 			'postx' => $postx );
 				
-	$sql = "REPLACE INTO $table (keyword, type, click, timestamp, shelflife, postexpire) VALUES (:keyword, :type, :click, :fresh, :stale, :postx)";
+
+	$sql = "INSERT INTO $table (keyword, type, click, timestamp, shelflife, postexpire)  VALUES ('$keyword', '$type', '$click', '$fresh', '$stale', '$postx')";
 	
 	$insert = $ydb->fetchAffected($sql, $binds);
 		
@@ -1117,9 +1118,10 @@ function expiry_old_link() {
 				'fresh' 	=> $fresh,
 				'stale' 	=> $stale,
 				'postx' 	=> $postx );
-			
-	$sql = "REPLACE INTO $table (keyword, type, click, timestamp, shelflife, postexpire) VALUES (:keyword, :type, :click, :fresh, :stale, :postx)";
-	
+
+
+	$sql = "INSERT INTO $table (keyword, type, click, timestamp, shelflife, postexpire)  VALUES ('$keyword', '$type', '$click', '$fresh', '$stale', '$postx')";
+
 	$insert = $ydb->fetchAffected($sql, $binds);
 
 	return yourls_apply_filter( 'after_expiry_old_link', $return, $url, $keyword, $title );
