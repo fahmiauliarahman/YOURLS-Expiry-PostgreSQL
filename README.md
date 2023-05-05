@@ -1,3 +1,7 @@
+### Notes
+
+This repo is originally from [joshp23/YOURLS-Expiry](https://github.com/joshp23/YOURLS-Expiry) with modifications on converting mysql queries to pgsql.
+
 # YOURLS-Expiry
 [YOURLS](https://github.com/YOURLS/YOURLS) plugin to define conditions under which links will expire - time and click limited links
 
